@@ -1,5 +1,6 @@
 package zadaci;
 
+import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
@@ -9,6 +10,10 @@ import model.Roba;
 import java.io.IOException;
 
 public class Zadatak1KreiranjeTabela {
+
+
+
+
 
     public static void main(String[] args) {
 
