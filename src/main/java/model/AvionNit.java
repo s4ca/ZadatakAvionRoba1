@@ -1,6 +1,16 @@
 package model;
 
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.jdbc.JdbcConnectionSource;
+import com.j256.ormlite.support.ConnectionSource;
+
+import java.util.List;
+
 public class AvionNit extends Thread {
+
+    static Dao<Avion, String> avionDao;
+    static Dao<Roba, String> robaDao;
 
 
     private boolean dozvolaZaPoletanje;
@@ -8,10 +18,11 @@ public class AvionNit extends Thread {
 
     @Override
     public void run() {
-        System.out.println("Provera aviona");
+        System.out.println(avionDao + "Provera aviona");
         provera();
-        System.out.println("Polece");
+        System.out.println(avionDao +"Polece");
         poleti();
+        System.out.println(avionDao + "Zavrsio");
 
     }
 
@@ -86,8 +97,27 @@ public class AvionNit extends Thread {
 
     public static void main(String[] args) {
 
+        ConnectionSource connectionSource = null;
+
+        try {
+
+            connectionSource = new JdbcConnectionSource("jdbc:sqlite:avionRoba.db");
+
+            avionDao = DaoManager.createDao(connectionSource , Avion.class);
+            robaDao = DaoManager.createDao(connectionSource, Roba.class);
 
 
+            List<Avion> avion = avionDao.queryForAll();
+            for (Avion a : avion) {
+                AvionNit a1 = new AvionNit(a);
+                a1.start();
+            }
+
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-
 }
